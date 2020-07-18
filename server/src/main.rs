@@ -10,7 +10,7 @@ async fn main() -> io::Result<()> {
             .route("/submit", web::post().to(handler::handle_receive_post))
             .route("/", web::get().to(handler::hello))
     })
-    .bind("127.0.0.1:8000")?
+    .bind("0.0.0.0:8080")?
     .run()
     .await
 }

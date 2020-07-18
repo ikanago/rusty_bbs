@@ -7,6 +7,7 @@ pub struct Register {
 }
 
 pub async fn hello() -> String {
+    dbg!("Request");
     "hello\n".to_string()
 }
 
