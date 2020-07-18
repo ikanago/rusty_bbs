@@ -22,6 +22,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: "./src/template/index.html",
+            scriptLoading: "defer",
         }),
     ],
     devServer: {
