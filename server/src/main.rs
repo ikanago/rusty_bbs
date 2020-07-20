@@ -5,6 +5,7 @@ mod handler;
 
 #[actix_rt::main]
 async fn main() -> io::Result<()> {
+    println!("Boot");
     HttpServer::new(|| {
         App::new()
             .route("/submit", web::post().to(handler::handle_receive_post))

@@ -1,4 +1,4 @@
-use actix_web::{web, HttpResponse, HttpRequest};
+use actix_web::{web, HttpRequest, HttpResponse};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -8,7 +8,7 @@ pub struct Register {
 
 pub async fn hello() -> String {
     dbg!("Request");
-    "hello\n".to_string()
+    "Hello from Actix-web!\n".to_string()
 }
 
 /// Handle incoming requests with user's post.

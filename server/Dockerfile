@@ -1,11 +1,20 @@
 FROM rust:slim-buster as builder
 
+ENV USER=root
+
 WORKDIR /builder
+
+RUN cargo init
+
+COPY Cargo.toml ./
+
+RUN cargo fetch
+
+RUN cargo build --release
 
 COPY . .
 
-RUN cargo install --path . \
-    && cargo build --release
+RUN touch src/main.rs && cat src/main.rs && cargo build --release
 
 FROM rust:slim-buster
 

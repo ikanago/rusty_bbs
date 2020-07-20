@@ -2,10 +2,13 @@ FROM node:lts-alpine as builder
 
 WORKDIR /builder
 
+COPY package.json yarn.lock ./
+
+RUN yarn install
+
 COPY . .
 
-RUN yarn install \
-    && yarn build
+RUN yarn build
 
 FROM nginx:latest
 
