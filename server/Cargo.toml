@@ -12,7 +12,12 @@ actix-rt = "1.0"
 failure = "0.1.8"
 serde = "1.0.114"
 serde_derive = "1.0.114"
+openssl = "*"
 
 [dependencies.chrono]
 features = ["serde"]
 version = "0.4.13"
+
+[dependencies.diesel]
+features = ["postgres", "chrono", "r2d2"]
+version = "1.4.5"

@@ -1,15 +1,41 @@
-version: '3'
+version: "3"
 
-services: 
+services:
   www:
     build:
       context: ./front
       dockerfile: Dockerfile
+    networks:
+      - client-side
     ports:
       - 80:80
   server:
     build:
       context: ./server
       dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/posts
+    networks:
+      - client-side
+      - server-side
     ports:
       - 8080:8080
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    networks:
+      - server-side
+    ports:
+      - 5432:5432
+
+networks:
+  client-side: {}
+  server-side: {}
+volumes:
+  dbdata: {}
