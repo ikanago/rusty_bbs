@@ -20,15 +20,12 @@ pub async fn handle_receive_post(
     form: web::Form<Register>,
     db_pool: web::Data<DBPool>,
 ) -> Result<HttpResponse> {
-    dbg!("Request to /submit");
     let db_connection = db_pool.get().map_err(error::ErrorInternalServerError)?;
-    dbg!("reach");
     let post = NewPost {
         text: form.text.clone(),
         timestamp: Utc::now().naive_utc(),
     };
     db::insert_post(&db_connection, &post).map_err(error::ErrorInternalServerError)?;
-    dbg!("reach");
     dbg!(&form);
     Ok(HttpResponse::Ok().finish())
 }
