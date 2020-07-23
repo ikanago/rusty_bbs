@@ -13,8 +13,18 @@ export class PostForm extends React.Component<{}, FormState> {
         this.setState({ text: event.currentTarget.value });
     };
 
-    handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        const params = new URLSearchParams();
+        params.append('text', this.state.text);
+        console.log(params.toString());
+        const result = await fetch('http://server:8080/submit', {
+            method: 'POST',
+            mode: 'cors',
+            body: params,
+        });
+        const res = await result.text().catch(console.error);
+        console.log(res);
     };
 
     render = () => {

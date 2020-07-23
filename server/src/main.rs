@@ -2,7 +2,8 @@ extern crate openssl;
 #[macro_use]
 extern crate diesel;
 
-use actix_web::{web, App, HttpResponse, HttpServer};
+use actix_cors::Cors;
+use actix_web::{http::header, web, App, HttpResponse, HttpServer};
 use diesel::pg::PgConnection;
 use diesel::r2d2::{ConnectionManager, Pool};
 use std::env;
@@ -22,6 +23,7 @@ async fn main() -> io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .data(db_pool.clone())
+            .wrap(Cors::default())
             .route("/submit", web::post().to(handler::handle_receive_post))
             .route("/", web::get().to(handler::hello))
             .default_service(web::to(|| HttpResponse::NotFound()))
