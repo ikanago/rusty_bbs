@@ -18,13 +18,11 @@ export class PostForm extends React.Component<{}, FormState> {
         const params = new URLSearchParams();
         params.append('text', this.state.text);
         console.log(params.toString());
-        const result = await fetch('http://server:8080/submit', {
+        await fetch('http://localhost:8080/submit', {
             method: 'POST',
             mode: 'cors',
             body: params,
-        });
-        const res = await result.text().catch(console.error);
-        console.log(res);
+        }).catch(console.error);
     };
 
     render = () => {

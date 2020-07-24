@@ -1,9 +1,10 @@
 extern crate openssl;
 #[macro_use]
 extern crate diesel;
+extern crate log;
 
 use actix_cors::Cors;
-use actix_web::{http::header, web, App, HttpResponse, HttpServer};
+use actix_web::{http::header, middleware::Logger, web, App, HttpResponse, HttpServer};
 use diesel::pg::PgConnection;
 use diesel::r2d2::{ConnectionManager, Pool};
 use std::env;
@@ -18,12 +19,19 @@ pub type DBPool = Pool<ConnectionManager<PgConnection>>;
 
 #[actix_rt::main]
 async fn main() -> io::Result<()> {
+    env::set_var("RUST_LOG", "actix_web=info");
+    env_logger::init();
     let db_pool = create_db_pool();
 
     HttpServer::new(move || {
         App::new()
             .data(db_pool.clone())
-            .wrap(Cors::default())
+            .wrap(
+                Cors::new()
+                    .allowed_origin("http://localhost")
+                    .finish(),
+            )
+            .wrap(Logger::new("%a %{Origin}i"))
             .route("/submit", web::post().to(handler::handle_receive_post))
             .route("/", web::get().to(handler::hello))
             .default_service(web::to(|| HttpResponse::NotFound()))
