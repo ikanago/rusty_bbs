@@ -1,12 +1,16 @@
 import React from "react";
 
-export type Post = {
+export type PostProps = {
     id: number;
     text: String;
     timestamp: Date;
 };
 
-export const PostEntity: React.FC<Post> = ({ id, text, timestamp }: Post) => (
+export const Post: React.FC<PostProps> = ({
+    id,
+    text,
+    timestamp,
+}: PostProps) => (
     <div>
         <h3>{text}</h3>
         <p>{id}</p>

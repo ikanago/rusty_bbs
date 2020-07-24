@@ -1,11 +1,9 @@
 import React from "react";
-import { PostForm } from "./PostForm";
 import { Posts } from "./Posts";
 
 export const Home = () => (
     <div>
-        <h1>Hello, world</h1>
-        <PostForm />
+        <h1>Rusty BBS</h1>
         <Posts />
     </div>
 );

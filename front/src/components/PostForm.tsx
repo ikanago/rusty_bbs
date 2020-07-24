@@ -4,7 +4,11 @@ type FormState = {
     text: string;
 };
 
-export class PostForm extends React.Component<{}, FormState> {
+type Props = {
+    appendPost: Function;
+};
+
+export class PostForm extends React.Component<Props, FormState> {
     state: FormState = {
         text: "",
     };
@@ -18,11 +22,13 @@ export class PostForm extends React.Component<{}, FormState> {
         const params = new URLSearchParams();
         params.append("text", this.state.text);
         console.log(params.toString());
-        await fetch("http://localhost:8080/submit", {
+        const res = await fetch("http://localhost:8080/submit", {
             method: "POST",
             mode: "cors",
             body: params,
-        }).catch(console.error);
+        });
+        const post = await res.json();
+        this.props.appendPost(post);
     };
 
     render = () => {
