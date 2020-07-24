@@ -4,7 +4,7 @@ extern crate diesel;
 extern crate log;
 
 use actix_cors::Cors;
-use actix_web::{http::header, middleware::Logger, web, App, HttpResponse, HttpServer};
+use actix_web::{middleware::Logger, web, App, HttpResponse, HttpServer};
 use diesel::pg::PgConnection;
 use diesel::r2d2::{ConnectionManager, Pool};
 use std::env;
@@ -26,14 +26,11 @@ async fn main() -> io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .data(db_pool.clone())
-            .wrap(
-                Cors::new()
-                    .allowed_origin("http://localhost")
-                    .finish(),
-            )
+            .wrap(Cors::new().allowed_origin("http://localhost").finish())
             .wrap(Logger::new("%a %{Origin}i"))
+            .route("/", web::get().to(handler::ping))
             .route("/submit", web::post().to(handler::handle_receive_post))
-            .route("/", web::get().to(handler::hello))
+            .route("/posts", web::get().to(handler::handle_get_posts))
             .default_service(web::to(|| HttpResponse::NotFound()))
     })
     .bind("0.0.0.0:8080")?
