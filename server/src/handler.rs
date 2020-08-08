@@ -16,7 +16,7 @@ pub async fn ping() -> String {
 
 /// Handle incoming requests with user's post.
 pub async fn handle_receive_post(
-    form: web::Form<Register>,
+    form: web::Json<Register>,
     db_pool: web::Data<DBPool>,
 ) -> Result<HttpResponse> {
     dbg!(&form);
