@@ -22,9 +22,9 @@ export class PostForm extends React.Component<Props, FormState> {
         const params = new URLSearchParams();
         params.append("text", this.state.text);
         console.log(params.toString());
-        const res = await fetch("http://localhost:8080/submit", {
-            method: "POST",
-            mode: "cors",
+        const res = await fetch('http://localhost:8080/posts', {
+            method: 'POST',
+            mode: 'cors',
             body: params,
         });
         const post = await res.json();

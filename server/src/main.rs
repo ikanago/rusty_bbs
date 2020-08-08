@@ -29,7 +29,7 @@ async fn main() -> io::Result<()> {
             .wrap(Cors::new().allowed_origin("http://localhost").finish())
             .wrap(Logger::new("%a %{Origin}i"))
             .route("/", web::get().to(handler::ping))
-            .route("/submit", web::post().to(handler::handle_receive_post))
+            .route("/posts", web::post().to(handler::handle_receive_post))
             .route("/posts", web::get().to(handler::handle_get_posts))
             .default_service(web::to(|| HttpResponse::NotFound()))
     })
