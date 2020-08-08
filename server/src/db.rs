@@ -17,5 +17,8 @@ pub fn insert_post(conn: &PgConnection, new_post: &NewPost) -> QueryResult<Post>
 }
 
 pub fn load_posts(conn: &PgConnection, count: i64) -> QueryResult<Vec<Post>> {
-    dsl::posts.limit(count).load::<Post>(conn)
+    dsl::posts
+        .order(dsl::id.desc())
+        .limit(count)
+        .load::<Post>(conn)
 }

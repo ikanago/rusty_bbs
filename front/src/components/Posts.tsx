@@ -20,7 +20,7 @@ export class Posts extends React.Component<{}, PostsState> {
     };
 
     appendPost = (post: PostProps) => {
-        const posts = [...this.state.posts, post];
+        const posts = [post, ...this.state.posts];
         this.setState({
             posts: posts,
         });
