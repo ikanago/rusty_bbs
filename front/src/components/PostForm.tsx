@@ -1,29 +1,19 @@
-import React from "react";
-
-type FormState = {
-    text: string;
-};
+import React, {useState} from "react";
 
 type Props = {
     appendPost: Function;
 };
 
-export class PostForm extends React.Component<Props, FormState> {
-    state: FormState = {
-        text: "",
-    };
+export const PostForm = (props: Props) => {
+    const [text, setText] = useState("");
 
-    handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-        this.setState({ text: event.currentTarget.value });
-    };
-
-    handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const params = {
-            text: this.state.text,
+            text: text,
         };
         console.log(params.toString());
-        const res = await fetch("http://localhost:8080/posts", {
+        const response = await fetch("http://localhost:8080/posts", {
             method: "POST",
             mode: "cors",
             headers: {
@@ -31,20 +21,19 @@ export class PostForm extends React.Component<Props, FormState> {
             },
             body: JSON.stringify(params),
         });
-        const post = await res.json();
-        this.props.appendPost(post);
+        const post = await response.json();
+        props.appendPost(post);
+        setText("");
     };
 
-    render = () => {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <input
-                    type="text"
-                    value={this.state.text}
-                    onChange={this.handleChange}
-                />
-                <input type="submit" value="Submit" />
-            </form>
-        );
-    };
+    return (
+        <form onSubmit={handleSubmit}>
+            <input
+                type="text"
+                value={text}
+                onChange={event => setText(event.currentTarget.value)}
+            />
+            <input type="submit" value="Submit" />
+        </form>
+    );
 }
