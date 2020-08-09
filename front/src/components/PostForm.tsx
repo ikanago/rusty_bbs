@@ -20,14 +20,14 @@ export class PostForm extends React.Component<Props, FormState> {
     handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const params = {
-            "text": this.state.text
+            text: this.state.text,
         };
         console.log(params.toString());
         const res = await fetch("http://localhost:8080/posts", {
             method: "POST",
             mode: "cors",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(params),
         });
